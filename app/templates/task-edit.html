@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Редактировать задачу — DoIt</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="page">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container">
+      <div class="navbar__inner">
+        <a href="index.html" class="logo">
+          <span class="logo-dot"></span> DoIt
+        </a>
+        <div class="nav-user">
+          <span>Привет, Алина</span>
+          <div class="nav-avatar">А</div>
+          <a href="login.html">Выйти</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container task-form-page">
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+      <a href="index.html" class="page-header__back">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      </a>
+      <div>
+        <h1 class="page-header__title">Редактировать задачу</h1>
+        <p class="page-header__sub">Создана 6 апреля 2026</p>
+      </div>
+    </div>
+
+    <!-- SUCCESS FLASH (показывается после сохранения) -->
+    <!-- <div class="flash flash--success">✓ Задача успешно обновлена</div> -->
+
+    <form action="/tasks/1/edit/" method="POST">
+      {% csrf_token %}
+
+      <div class="form-card">
+
+        <!-- ОСНОВНОЕ -->
+        <div class="form-section-title">Основное</div>
+
+        <div class="form-group">
+          <label class="form-label" for="title">Название задачи *</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            class="form-input"
+            value="Настроить Django проект и создать приложения"
+            required
+            maxlength="200"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="description">Описание</label>
+          <textarea
+            id="description"
+            name="description"
+            class="form-textarea"
+            rows="4"
+          >Инициализировать проект, настроить settings.py, создать приложения tasks и accounts. Не забыть добавить в INSTALLED_APPS.</textarea>
+        </div>
+
+        <!-- ПАРАМЕТРЫ -->
+        <div class="form-section-title" style="margin-top: 28px;">Параметры</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="category">Категория</label>
+            <select id="category" name="category" class="form-select">
+              <option value="">— Без категории —</option>
+              <option value="work" selected>💼 Работа</option>
+              <option value="personal">🏠 Личное</option>
+              <option value="health">💪 Здоровье</option>
+              <option value="other">📌 Другое</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="priority">Приоритет</label>
+            <select id="priority" name="priority" class="form-select">
+              <option value="low">🟢 Низкий</option>
+              <option value="medium">🟡 Средний</option>
+              <option value="high" selected>🔴 Высокий</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="due_date">Срок выполнения</label>
+            <input
+              type="date"
+              id="due_date"
+              name="due_date"
+              class="form-input"
+              value="2026-04-07"
+            />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="due_time">Время</label>
+            <input
+              type="time"
+              id="due_time"
+              name="due_time"
+              class="form-input"
+              value="18:00"
+            />
+          </div>
+        </div>
+
+        <!-- СОСТОЯНИЕ -->
+        <div class="form-section-title" style="margin-top: 28px;">Состояние</div>
+
+        <div class="form-group">
+          <label style="display: flex; align-items: center; gap: 12px; cursor: pointer;">
+            <div class="task-check" id="done-check" onclick="toggleDone(this)" style="margin-top: 0;"></div>
+            <div>
+              <div style="font-size: 15px; font-weight: 500; color: var(--text);">Отметить как выполненную</div>
+              <div style="font-size: 13px; color: var(--text2);">Задача уже завершена</div>
+            </div>
+          </label>
+          <input type="hidden" name="is_done" id="is_done_input" value="false" />
+        </div>
+
+        <!-- ACTIONS -->
+        <div class="form-actions">
+          <button
+            type="button"
+            class="btn btn--danger"
+            onclick="confirmDelete()"
+            style="margin-right: auto;"
+          >
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+            Удалить
+          </button>
+          <a href="index.html" class="btn btn--ghost">Отмена</a>
+          <button type="submit" class="btn btn--primary">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v14a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            Сохранить
+          </button>
+        </div>
+
+      </div>
+    </form>
+
+    <!-- DELETE CONFIRM (скрытый блок) -->
+    <div id="delete-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:200; align-items:center; justify-content:center;">
+      <div style="background:var(--bg2); border:1px solid var(--border2); border-radius:var(--radius-lg); padding:32px; max-width:380px; width:90%; text-align:center;">
+        <div style="font-size:32px; margin-bottom:16px;">⚠️</div>
+        <h2 style="font-family:'Syne',sans-serif; font-size:20px; font-weight:700; margin-bottom:8px;">Удалить задачу?</h2>
+        <p style="color:var(--text2); font-size:14px; margin-bottom:24px; line-height:1.5;">Это действие нельзя отменить. Задача будет удалена навсегда.</p>
+        <div style="display:flex; gap:10px; justify-content:center;">
+          <button class="btn btn--ghost" onclick="closeDelete()">Отмена</button>
+          <a href="index.html" class="btn btn--danger">Да, удалить</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function toggleDone(el) {
+      el.classList.toggle('checked');
+      document.getElementById('is_done_input').value = el.classList.contains('checked');
+    }
+
+    function confirmDelete() {
+      const overlay = document.getElementById('delete-overlay');
+      overlay.style.display = 'flex';
+    }
+
+    function closeDelete() {
+      document.getElementById('delete-overlay').style.display = 'none';
+    }
+
+    // Close on backdrop click
+    document.getElementById('delete-overlay').addEventListener('click', function(e) {
+      if (e.target === this) closeDelete();
+    });
+  </script>
+
+</body>
+</html>
