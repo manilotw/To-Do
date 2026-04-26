@@ -20,7 +20,7 @@
         <div class="nav-user">
           <span>Привет, Алина</span>
           <div class="nav-avatar">А</div>
-          <a href="login.html">Выйти</a>
+          <a href="login">Выйти</a>
         </div>
       </div>
     </div>
@@ -93,14 +93,14 @@
     </div>
 
     <div class="task-list">
-
+    {% for task in tasks %}
       <div class="task-card">
         <div class="task-check"></div>
         <div class="task-card__body">
-          <div class="task-card__title">Настроить Django проект и создать приложения</div>
-          <div class="task-card__desc">Инициализировать проект, настроить settings.py, создать приложения tasks и accounts</div>
+          <div class="task-card__title">{{task.title}}</div>
+          <div class="task-card__desc">{{task.description}}</div>
           <div class="task-card__meta">
-            <span class="tag tag--work">Работа</span>
+            <span class="tag tag--work">{{task.get_category_display}}</span>
             <span class="tag tag--urgent">Срочно</span>
             <div class="priority-dot priority-dot--high"></div>
             <span class="task-card__due task-card__due--overdue">
@@ -118,7 +118,7 @@
           </button>
         </div>
       </div>
-
+    {% endfor %}
       <div class="task-card">
         <div class="task-check"></div>
         <div class="task-card__body">

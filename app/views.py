@@ -1,7 +1,10 @@
 from django.shortcuts import render
+from .models import Task
 
 def index(request):
-    return render(request, 'index.html')
+    tasks = Task.objects.all()
+    
+    return render(request, 'index.html', {'tasks': tasks})
 
 def login(request):
     return render(request, 'login.html')
